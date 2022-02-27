@@ -1,0 +1,116 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+}
+
+body {
+  background-color: #000;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 560px;
+  height: 560px;
+  border: solid black;
+}
+
+.grid div {
+  width: 20px;
+  height: 20px;
+}
+
+.wall {
+  background-image: url('../public/wall.png');
+  background-size: 10px;
+}
+
+.power-pellet {
+  background-color: white;
+  border-radius: 50px;
+  border: 4.5px solid black;
+  box-sizing: border-box;
+}
+
+.blinky {
+  background-image: url('../public/ghost.png');
+  background-size: 23.5px;
+}
+
+.pinky {
+  filter: hue-rotate(140deg);
+  background-image: url('../public/ghost.png');
+  background-size: 23.5px;
+}
+
+.inky {
+  filter: hue-rotate(40deg);
+  background-image: url('../public/ghost.png');
+  background-size: 23.5px;
+}
+
+.clyde {
+  filter: hue-rotate(260deg);
+  background-image: url('../public/ghost.png');
+  background-size: 23.5px;
+}
+
+.pac-dot {
+  background-color: white;
+  border-radius: 50px;
+  border: 7px solid black;
+  box-sizing: border-box;
+}
+
+.pac-man0 {
+  background-image: url('../public/pac0.png');
+  background-size: 20px;
+}
+
+.pac-man1 {
+  background-image: url('../public/pac1.png');
+  background-size: 20px;
+}
+
+.pac-man2 {
+  background-image: url('../public/pac2.png');
+  background-size: 20px;
+}
+
+.pac-man3 {
+  background-image: url('../public/pac0.png');
+  background-size: 20px;
+}
+
+.pac-man-angle-original {
+  transform: rotate(360deg);
+}
+
+.pac-man-angle-left {
+  transform: rotate(180deg);
+}
+
+.pac-man-angle-up {
+  transform: rotate(270deg);
+}
+
+.pac-man-angle-down {
+  transform: rotate(90deg);
+}
+
+.pilled {
+  background-color: #fff;
+}
+
+.scared-ghost {
+  background-size: 20px;
+  background-image: url('../public/ghost.png');
+  filter: saturate(0);
+}
