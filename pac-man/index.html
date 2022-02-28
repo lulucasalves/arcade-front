@@ -13,8 +13,35 @@
     <title>Pac-Man</title>
   </head>
   <body>
-    <div class="grid"></div>
-    <h3>Score<span id="score"></span></h3>
+    <section>
+      <div class="scores">
+        <p>Score</p>
+        <p id="score">0</p>
+        <p class="max-score">Max Score</p>
+        <div id="maxScore">0</div>
+      </div>
+      <div>
+        <div class="grid"></div>
+        <div class="controls">
+          <div class="buttons">
+            <div class="button upPosition">
+              <div class="up"></div>
+            </div>
+            <div class="button downPosition">
+              <div class="down"></div>
+            </div>
+            <div class="button rightPosition">
+              <div class="right"></div>
+            </div>
+            <div class="button leftPosition">
+              <div class="left"></div>
+            </div>
+          </div>
+          <div onclick="restart()" class="startDiv"><div>start</div></div>
+        </div>
+      </div>
+    </section>
+
     <script src="./scripts/app.js"></script>
   </body>
 </html>

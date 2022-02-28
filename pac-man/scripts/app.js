@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const score = document.querySelector('#score')
   const width = 28
   let currentScore = 0
+  let ghostScared = false
+  let getGhost = false
+
+  const controlButtonUp = document.querySelector('.upPosition')
+  const controlButtonDown = document.querySelector('.downPosition')
+  const controlButtonLeft = document.querySelector('.leftPosition')
+  const controlButtonRight = document.querySelector('.rightPosition')
 
   const layout = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -17,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1,
+    1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 4, 4, 2, 2, 4, 4,
     1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2,
     2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 0, 0, 0, 4, 1,
     2, 2, 2, 2, 2, 2, 1, 4, 0, 0, 0, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 0, 1,
@@ -43,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function createBoard() {
     for (let i = 0; i < layout.length; i++) {
-      const square = document.createElement('div')
+      const square = document.createElement('canvas')
       grid.appendChild(square)
       squares.push(square)
 
@@ -74,38 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
     squares[pacmanCurrentState].classList.remove('pac-man1')
     squares[pacmanCurrentState].classList.remove('pac-man2')
   }
-  function changeAllAngle(val) {
-    squares[pacmanCurrentState].classList.add(`pac-man-angle-original`)
 
-    if (val == 'right') {
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-left`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-right`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-up`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-down`)
-
-      squares[pacmanCurrentState].classList.add(`pac-man-angle-original`)
-    } else if (val == 'left') {
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-original`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-right`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-up`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-down`)
-
-      squares[pacmanCurrentState].classList.add(`pac-man-angle-${val}`)
-    } else if (val == 'down') {
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-left`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-right`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-up`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-original`)
-
-      squares[pacmanCurrentState].classList.add(`pac-man-angle-${val}`)
-    } else if (val == 'up') {
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-left`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-right`)
-      squares[pacmanCurrentState].classList.add(`pac-man-angle-down`)
-      squares[pacmanCurrentState].classList.remove(`pac-man-angle-original`)
-
-      squares[pacmanCurrentState].classList.add(`pac-man-angle-${val}`)
-    }
+  function removeAllButtons() {
+    controlButtonDown.classList.remove('statusButton')
+    controlButtonUp.classList.remove('statusButton')
+    controlButtonLeft.classList.remove('statusButton')
+    controlButtonRight.classList.remove('statusButton')
   }
 
   function animatePacman() {
@@ -125,35 +106,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animatePacman()
 
+  document.addEventListener('keyup', movePacman)
+
+
+
   function movePacman(e) {
+
     switch (e.keyCode) {
       case 37:
         removeAllImage()
+        removeAllButtons()
+
+        controlButtonLeft.classList.add('statusButton')
         squares[pacmanCurrentState].classList.remove('pac-man3')
         if (
           pacmanCurrentState % width != 0 &&
           !squares[pacmanCurrentState - 1].classList.contains('wall') &&
           !squares[pacmanCurrentState - 1].classList.contains('ghost-lair')
         ) {
-          changeAllAngle('right')
+
           pacmanCurrentState -= 1
         }
-
         if (pacmanCurrentState - 1 == squares[363]) {
           pacmanCurrentState = 391
         }
+
         addPosition(1)
+
         break
 
       case 38:
         removeAllImage()
+        removeAllButtons()
+        controlButtonUp.classList.add('statusButton')
         squares[pacmanCurrentState].classList.remove('pac-man3')
         if (
           pacmanCurrentState - width >= 0 &&
           !squares[pacmanCurrentState - width].classList.contains('wall') &&
           !squares[pacmanCurrentState - width].classList.contains('ghost-lair')
         ) {
-          changeAllAngle('down')
           pacmanCurrentState -= width
         }
 
@@ -162,13 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       case 39:
         removeAllImage()
+        removeAllButtons()
+        controlButtonRight.classList.add('statusButton')
         squares[pacmanCurrentState].classList.remove('pac-man3')
         if (
           pacmanCurrentState % width >= 0 &&
           !squares[pacmanCurrentState + 1].classList.contains('wall') &&
           !squares[pacmanCurrentState + 1].classList.contains('ghost-lair')
         ) {
-          changeAllAngle('left')
           pacmanCurrentState += 1
         }
         if (pacmanCurrentState + 1 == squares[392]) {
@@ -179,13 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       case 40:
         removeAllImage()
+        removeAllButtons()
+        controlButtonDown.classList.add('statusButton')
         squares[pacmanCurrentState].classList.remove('pac-man3')
         if (
           pacmanCurrentState + width < width * width &&
           !squares[pacmanCurrentState + width].classList.contains('wall') &&
           !squares[pacmanCurrentState + width].classList.contains('ghost-lair')
         ) {
-          changeAllAngle('up')
           pacmanCurrentState += width
         }
         addPosition(1)
@@ -194,11 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pacEat()
     powerPelletEat()
-    checkForGameOver()
-    checkForWin()
+    checkForGameOver(ghostScared)
+    checkGhostDeath()
   }
-
-  document.addEventListener('keyup', movePacman)
 
   function pacEat() {
     if (squares[pacmanCurrentState].classList.contains('pac-dot')) {
@@ -214,16 +205,19 @@ document.addEventListener('DOMContentLoaded', () => {
       ghosts.forEach((ghost) => {
         ghost.isScared = true
       })
-      setTimeout(unScareGhosts, 10000)
+      ghostScared = true
       squares[pacmanCurrentState].classList.remove('power-pellet')
+      setTimeout(unScareGhosts, 10000)
     }
   }
 
   function unScareGhosts() {
     ghosts.forEach((ghost) => {
-      ghost.isScared = false
       squares[ghost.currentIndex].classList.remove('scared-ghost')
+      squares[ghost.currentIndex].classList.add(ghost.className)
+      ghost.isScared = false
     })
+    ghostScared = false
   }
 
   class Ghost {
@@ -238,10 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const ghosts = [
-    new Ghost('blinky', 348, 250),
-    new Ghost('pinky', 376, 400),
-    new Ghost('inky', 351, 300),
-    new Ghost('clyde', 379, 500)
+    new Ghost('blinky', 348, 180),
+    new Ghost('pinky', 376, 200),
+    new Ghost('inky', 351, 190),
+    new Ghost('clyde', 379, 210)
   ]
 
   ghosts.forEach((ghost) => {
@@ -252,6 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ghosts.forEach((ghost) => moveGhost(ghost))
 
   function moveGhost(ghost) {
+    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
+
     const directions = [-1, +1, width, -width]
     let direction = directions[Math.floor(Math.random() * directions.length)]
 
@@ -270,26 +266,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (ghost.isScared) {
         squares[ghost.currentIndex].classList.add('scared-ghost')
+        ghostScared = true
+      } else {
+        ghostScared = false
       }
 
-      if (
-        ghost.isScared &&
-        (squares[ghost.currentIndex].classList.contains('pac-man0') ||
-          squares[ghost.currentIndex].classList.contains('pac-man1') ||
-          squares[ghost.currentIndex].classList.contains('pac-man2') ||
-          squares[ghost.currentIndex].classList.contains('pac-man3'))
-      ) {
+      if (getGhost) {
         squares[ghost.currentIndex].classList.remove(
           ghost.className,
           'ghost',
           'scared-ghost'
         )
+
         ghost.currentIndex = 348
+
         currentScore += 100
         squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
+        getGhost = false
       }
-
-      //formato de n se esconder
 
       if (
         squares[ghost.currentIndex + direction].classList.contains('pac-dot')
@@ -323,28 +317,44 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[ghost.currentIndex].classList.add('power-pellet')
       }
 
-      checkForGameOver(ghost.isScared)
-    }, 100)
+      checkForGameOver(ghostScared)
+      checkGhostDeath()
+    }, ghost.speed)
   }
 
-  function checkForGameOver(scared) {
-    if (squares[pacmanCurrentState].classList.contains('ghost') && !scared) {
-      ghosts.forEach((ghost) => clearInterval(ghost.timerId))
-      document.removeEventListener('keyup', movePacman)
-      setTimeout(function () {
-        alert('Game Over')
-      }, 100)
+  function checkGhostDeath() {
+    if (
+      ghostScared &&
+      squares[pacmanCurrentState].classList.contains('ghost')
+    ) {
+      getGhost = true
     }
   }
 
-  //check for a win - more is when this score is reached
-  function checkForWin() {
-    if (currentScore === 274) {
+  function checkForGameOver(second) {
+    if (squares[pacmanCurrentState].classList.contains('ghost') && !second) {
       ghosts.forEach((ghost) => clearInterval(ghost.timerId))
       document.removeEventListener('keyup', movePacman)
-      setTimeout(function () {
-        alert('You have WON!')
-      }, 500)
+
+      if (maxScore) {
+        if (parseInt(maxScore) < currentScore) {
+          localStorage.setItem('max_score', currentScore)
+        }
+      } else {
+        localStorage.setItem('max_score', currentScore)
+      }
+
+      alert('GAME OVER')
     }
+  }
+
+  const maxScore = localStorage.getItem('max_score')
+
+  if (maxScore) {
+    document.querySelector('#maxScore').innerHTML = `<p>${maxScore}</p>`
   }
 })
+
+function restart() {
+  location.reload()
+}
