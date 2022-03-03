@@ -1,12 +1,12 @@
 const grid = document.querySelector('.grid')
 const scoreDisplay = document.querySelector('#score')
-const blockWidth = 100
+const blockWidth = 110
 const blockHeight = 20
 const ballDiameter = 20
 const boardWidth = 780
 const boardHeight = 500
 let timerId
-let xDirection = -2
+let xDirection = 2
 let yDirection = 2
 let score = 0
 
@@ -123,7 +123,15 @@ function checkForCollisions() {
       const allBlocks = Array.from(document.querySelectorAll('.block'))
       allBlocks[i].classList.remove('block')
       blocks.splice(i, 1)
+
+      const heightBlock = allBlocks[i].style.bottom
+      const [value] = heightBlock.split('p')
+
       changeDirection()
+      if (ballCurrentPosition[1] < parseInt(value)) {
+        yDirection = -2
+      }
+
       score++
       scoreDisplay.innerHTML = score
 

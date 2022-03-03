@@ -94,13 +94,6 @@ button {
 
 .pilled {
   background-color: #fff;
-  
-}
-
-.scared-ghost {
-  background-size: 20px;
-  background-image: url('../public/ghost.png');
-  filter: saturate(0);
 }
 
 section {
@@ -240,4 +233,9 @@ section {
 
 .statusButton {
   filter: brightness(0.7);
+}
+
+.scared-ghost {
+  background-size: 20px;
+  background-image: url('../public/scaredGhost2.png');
 }
