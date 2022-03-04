@@ -212,9 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (score > 100) {
       alert('You Win!')
       location.reload()
-    }
-
-    if (play < 1) {
+    } else if (play < 1) {
       alert('You Lost!')
       location.reload()
     }
