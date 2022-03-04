@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let play = 15
 
   const colors = [
-    'url(../public/red-candy.png)',
-    'url(../public/yellow-candy.png)',
-    'url(../public/orange-candy.png)',
-    'url(../public/purple-candy.png)',
-    'url(../public/green-candy.png)',
-    'url(../public/blue-candy.png)'
+    'url(./public/red-candy.png)',
+    'url(./public/yellow-candy.png)',
+    'url(./public/orange-candy.png)',
+    'url(./public/purple-candy.png)',
+    'url(./public/green-candy.png)',
+    'url(./public/blue-candy.png)'
   ]
 
   function createBoard() {
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkColumn()
 
   function checkVictory() {
-    if (score > 100) {
+    if (score >= 100) {
       alert('You Win!')
       location.reload()
     } else if (play < 1) {

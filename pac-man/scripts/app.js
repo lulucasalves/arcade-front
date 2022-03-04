@@ -108,10 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('keyup', movePacman)
 
-
-
   function movePacman(e) {
-
     switch (e.keyCode) {
       case 37:
         removeAllImage()
@@ -124,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
           !squares[pacmanCurrentState - 1].classList.contains('wall') &&
           !squares[pacmanCurrentState - 1].classList.contains('ghost-lair')
         ) {
-
           pacmanCurrentState -= 1
         }
         if (pacmanCurrentState - 1 == squares[363]) {
