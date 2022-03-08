@@ -65,13 +65,14 @@ class Player {
     this.y += this.velocity.y
   }
 
-  shoot(mouse, color = 'white') {
+  shoot(mouse, color = 'white', radius = 5, plusVelocity = 1) {
     const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x)
     const velocity = {
-      x: Math.cos(angle) * 5,
-      y: Math.sin(angle) * 5
+      x: Math.cos(angle) * 5 * plusVelocity,
+      y: Math.sin(angle) * 5 * plusVelocity
     }
-    projectiles.push(new Projectile(this.x, this.y, 5, color, velocity))
+
+    projectiles.push(new Projectile(this.x, this.y, radius, color, velocity))
   }
 }
 
@@ -307,12 +308,12 @@ function createScoreLabel(projectile, score) {
   }, 1000)
 }
 
-let animationId
+let animationFrames
 let score = 0
 let frame = 0
 
 function animate() {
-  animationId = requestAnimationFrame(animate)
+  animationFrames = requestAnimationFrame(animate)
   frame++
   c.fillStyle = 'rgba(0, 0, 0, 0.1)'
   c.fillRect(0, 0, canvas.width, canvas.height)
@@ -321,41 +322,52 @@ function animate() {
     spawnEnemies()
   }
 
-  if (frame % 1000 === 0) {
+  if (frame % 1500 === 0) {
     spawnPowerUps()
   }
 
   player.update()
-  particles.forEach((particle, index) => {
-    if (particle.alpha <= 0) {
-      particles.splice(index, 1)
+  particles.forEach((val, i) => {
+    if (val.alpha <= 0) {
+      particles.splice(i, 1)
     } else {
-      particle.update()
+      val.update()
     }
   })
 
-  if (player.powerUp === 'Automatic' && mouse.down && frame % 4 === 0) {
-    player.shoot(mouse, '#fff500')
+  if (player.powerUp === 'Automatic' && mouse.down && frame % 1 === 0) {
+    player.color = '#FFF500'
+    player.shoot(mouse, '#fff500', 5, 1)
+  } else if (player.powerUp === 'Bigger' && mouse.down && frame % 5 === 0) {
+    player.color = '#275AF2'
+    player.shoot(mouse, '#275AF2', 25, 0.5)
+  } else if (player.powerUp === 'Fast' && mouse.down && frame % 5 === 0) {
+    player.color = '#04D924'
+    player.shoot(mouse, '#04D924', 8, 4)
+  } else if (player.powerUp === 'Super') {
+    player.color = '#D9042B'
+    player.shoot(mouse, '#D9042B', 8, 2)
   }
 
-  powerUps.forEach((powerUp, index) => {
-    const dist = Math.hypot(player.x - powerUp.x, player.y - powerUp.y)
+  powerUps.forEach((val, i) => {
+    const dist = Math.hypot(player.x - val.x, player.y - val.y)
 
-    if (dist - player.radius - powerUp.width / 2 < 1) {
-      player.color = '#FFF500'
-      player.powerUp = 'Automatic'
-      powerUps.splice(index, 1)
+    if (dist - player.radius - val.width / 2 < 1) {
+      const powerUpsList = ['Automatic', 'Bigger', 'Fast', 'Super']
+      player.powerUp =
+        powerUpsList[Math.floor(Math.random() * powerUpsList.length)]
+      powerUps.splice(i, 1)
 
       setTimeout(() => {
         player.powerUp = null
         player.color = '#FFFFFF'
       }, 5000)
     } else {
-      powerUp.update()
+      val.update()
     }
   })
 
-  projectiles.forEach((projectile, index) => {
+  projectiles.forEach((projectile, i) => {
     projectile.update()
 
     if (
@@ -365,7 +377,7 @@ function animate() {
       projectile.y - projectile.radius > canvas.height
     ) {
       setTimeout(() => {
-        projectiles.splice(index, 1)
+        projectiles.splice(i, 1)
       }, 0)
     }
   })
@@ -376,7 +388,7 @@ function animate() {
     const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y)
 
     if (dist - enemy.radius - player.radius < 1) {
-      cancelAnimationFrame(animationId)
+      cancelAnimationFrame(animationFrames)
       modalEl.style.display = 'flex'
       bigScoreEl.innerHTML = score
       screen.active = false
@@ -475,7 +487,7 @@ addEventListener('touchend', () => {
 })
 
 addEventListener('click', ({ clientX, clientY }) => {
-  if (scene.active && player.powerUp !== 'Automatic') {
+  if (scene.active && !player.powerUp) {
     mouse.x = clientX
     mouse.y = clientY
     player.shoot(mouse)
