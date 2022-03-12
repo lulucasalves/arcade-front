@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  background-color: #00010d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}

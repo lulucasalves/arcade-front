@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        color: white;
+      }
+
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --hue: 200;
+        --saturation: 50%;
+        --foreground-color: hsl(var(--hue), var(--saturation), 75%);
+        --background-color: hsl(var(--hue), var(--saturation), 20%);
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--background-color);
+        overflow: hidden;
+      }
+
+      .paddle {
+        --position: 50;
+
+        position: absolute;
+        background-color: var(--foreground-color);
+        top: calc(var(--position) * 1vh);
+        transform: translateY(-50%);
+        width: 1vh;
+        height: 10vh;
+      }
+
+      .paddle.left {
+        left: 1vw;
+      }
+
+      .paddle.right {
+        right: 1vw;
+      }
+
+      .ball {
+        --x: 50;
+        --y: 50;
+
+        position: absolute;
+        background-color: var(--foreground-color);
+        left: calc(var(--x) * 1vw);
+        top: calc(var(--y) * 1vh);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        width: 2.5vh;
+        height: 2.5vh;
+      }
+
+      .score {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 7vh;
+        color: var(--foreground-color);
+      }
+
+      .score > * {
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 0 2vh;
+        margin: 1vh 0;
+        opacity: 0.5;
+      }
+
+      .score > :first-child {
+        text-align: right;
+        border-right: 0.5vh solid var(--foreground-color);
+      }
+
+      .redColor {
+        background-color: red;
+      }
+
+      .blueColor {
+        background-color: blue;
+      }
+    </style>
+    <title>Ping-Pong</title>
+  </head>
+  <body>
+    <div class="score">
+      <div id="player-score">0</div>
+      <div id="computer-score">0</div>
+    </div>
+    <div class="ball" id="ball"></div>
+    <div class="paddle left" id="player-paddle"></div>
+    <div class="paddle right" id="computer-paddle"></div>
+    <script type="module">
+      const INITIAL_VELOCITY = 0.025
+      const VELOCITY_INCREASE = 0.00001
+
+      class Ball {
+        constructor(ballElem) {
+          this.ballElem = ballElem
+          this.reset()
+        }
+
+        get x() {
+          return parseFloat(
+            getComputedStyle(this.ballElem).getPropertyValue('--x')
+          )
+        }
+
+        set x(value) {
+          this.ballElem.style.setProperty('--x', value)
+        }
+
+        get y() {
+          return parseFloat(
+            getComputedStyle(this.ballElem).getPropertyValue('--y')
+          )
+        }
+
+        set y(value) {
+          this.ballElem.style.setProperty('--y', value)
+        }
+
+        rect() {
+          return this.ballElem.getBoundingClientRect()
+        }
+
+        reset() {
+          this.x = 50
+          this.y = 50
+          this.direction = { x: 0 }
+
+          while (
+            Math.abs(this.direction.x) <= 0.2 ||
+            Math.abs(this.direction.x) >= 0.9
+          ) {
+            const heading = randomNumberBetween(0, 2 * Math.PI)
+            this.direction = { x: Math.cos(heading), y: Math.sin(heading) }
+          }
+          this.velocity = INITIAL_VELOCITY
+        }
+
+        update(delta, paddleRects) {
+          this.x += this.direction.x * this.velocity * delta
+          this.y += this.direction.y * this.velocity * delta
+          this.velocity += VELOCITY_INCREASE * delta
+          const rect = this.rect()
+
+          if (rect.bottom >= window.innerHeight || rect.top <= 0) {
+            this.direction.y *= -1
+          }
+
+          const classes = ['redColor', 'blueColor']
+
+          if (paddleRects.some((r) => isCollision(r, rect))) {
+            this.direction.x *= -1
+          }
+        }
+      }
+
+      function randomNumberBetween(min, max) {
+        return Math.random() * (max - min) + min
+      }
+
+      function isCollision(rect1, rect2) {
+        return (
+          rect1.left <= rect2.right &&
+          rect1.right >= rect2.left &&
+          rect1.top <= rect2.bottom &&
+          rect1.bottom >= rect2.top
+        )
+      }
+
+      const SPEED = 0.02
+
+      class Paddle {
+        constructor(paddleElem) {
+          this.paddleElem = paddleElem
+          this.reset()
+        }
+
+        get position() {
+          return parseFloat(
+            getComputedStyle(this.paddleElem).getPropertyValue('--position')
+          )
+        }
+
+        set position(value) {
+          this.paddleElem.style.setProperty('--position', value)
+        }
+
+        rect() {
+          return this.paddleElem.getBoundingClientRect()
+        }
+
+        reset() {
+          this.position = 50
+        }
+
+        update(delta, ballHeight) {
+          this.position += SPEED * delta * (ballHeight - this.position)
+        }
+      }
+
+      const ball = new Ball(document.querySelector('#ball'))
+      const player = new Paddle(document.querySelector('#player-paddle'))
+      const bot = new Paddle(document.querySelector('#computer-paddle'))
+      const playerScore = document.querySelector('#player-score')
+      const botScore = document.querySelector('#computer-score')
+
+      let lastTime
+
+      function update(time) {
+        if (lastTime != null) {
+          const delta = time - lastTime
+          ball.update(delta, [player.rect(), bot.rect()])
+          bot.update(delta, ball.y)
+
+          const hue = parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue('--hue')
+          )
+          document.documentElement.style.setProperty(
+            '--hue',
+            hue + delta * 0.01
+          )
+
+          if (isLose()) {
+            handleLose()
+          }
+        }
+
+        lastTime = time
+        window.requestAnimationFrame(update)
+      }
+
+      function isLose() {
+        const rect = ball.rect()
+        return rect.right >= window.innerWidth || rect.left <= 0
+      }
+
+      function handleLose() {
+        const rect = ball.rect()
+
+        if (rect.right >= window.innerWidth) {
+          playerScore.textContent = parseInt(playerScore.textContent) + 1
+        } else {
+          botScore.textContent = parseInt(botScore.textContent) + 1
+        }
+
+        ball.reset()
+        bot.reset()
+      }
+
+      document.addEventListener('mousemove', (e) => {
+        player.position = (e.y / window.innerHeight) * 100
+      })
+
+      window.requestAnimationFrame(update)
+    </script>
+  </body>
+</html>

@@ -134,7 +134,7 @@ class Particle {
     this.position.y += this.velocity.y
 
     if (this.fades) {
-      this.opacity -= 0.01
+      this.opacity -= 0.05
     }
   }
 }
@@ -246,7 +246,7 @@ const keys = {
 }
 
 let frames = 0
-let randomInterval = Math.floor(Math.random() * 500 + 500)
+let randomInterval = Math.floor(Math.random() * 1600)
 
 function createParticles({ object, color = '#BAA0DE', fades }) {
   for (let i = 0; i < 15; i++) {
@@ -289,8 +289,6 @@ function endGame() {
     document.location.reload()
   }, 800)
 }
-
-let spawnBuffer = 1000
 
 function animate() {
   requestAnimationFrame(animate)
@@ -433,11 +431,8 @@ function animate() {
   }
 
   if (frames % randomInterval === 0) {
-    spawnBuffer = spawnBuffer < 0 ? 100 : spawnBuffer
     grids.push(new Grid())
-    randomInterval = Math.floor(Math.random() * 500 + spawnBuffer)
     frames = 0
-    spawnBuffer -= 100
   }
 
   frames++
