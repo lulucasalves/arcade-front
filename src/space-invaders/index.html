@@ -295,7 +295,7 @@
       }
 
       let frames = 0
-      let randomInterval = Math.floor(Math.random() * 1600)
+      let randomInterval = Math.floor(Math.random() * 1300)
 
       function createParticles({ object, color = '#BAA0DE', fades }) {
         for (let i = 0; i < 15; i++) {
@@ -475,7 +475,7 @@
           player.rotation = 0
         }
 
-        if (frames % randomInterval === 1000) {
+        if (frames % randomInterval === 0) {
           grids.push(new Grid())
           frames = 0
         }

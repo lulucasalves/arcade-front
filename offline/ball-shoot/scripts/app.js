@@ -417,7 +417,7 @@ function animate() {
         }
 
         if (enemy.radius - 10 > 5) {
-          score += 100
+          score += 10
           scoreEl.innerHTML = score
 
           createScoreLabel(projectile, 100)
@@ -428,7 +428,7 @@ function animate() {
             projectile.splice(projectileI, 1)
           }, 0)
         } else {
-          score += 250
+          score += 25
           scoreEl.innerHTML = score
           createScoreLabel(projectile, 250)
 

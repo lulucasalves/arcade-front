@@ -39,4 +39,9 @@ router.get('/space-invaders/invader.png', (req, res) => {
   res.sendFile(path.join(__dirname + '/space-invaders/invader.png'))
 })
 
+//FAVICON
+router.get('/favicon', (req, res) => {
+  res.sendFile(path.join(__dirname + '/favicon.svg'))
+})
+
 module.exports = router

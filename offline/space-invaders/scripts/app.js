@@ -10,7 +10,6 @@ const scoreElement = document.querySelector('#scoreEl')
 class Player {
   constructor() {
     this.velocity = { x: 0, y: 0 }
-
     this.rotation = 0
     this.opacity = 1
 

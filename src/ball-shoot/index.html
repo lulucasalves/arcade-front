@@ -13,6 +13,7 @@
       href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <link rel="icon" href="../favicon.svg" />
     <title>Ball Shoot</title>
     <style>
       body {
@@ -372,7 +373,7 @@
         c.fillStyle = 'rgba(0, 0, 0, 0.1)'
         c.fillRect(0, 0, canvas.width, canvas.height)
 
-        if (frame % 35 === 0) {
+        if (frame % 50 === 0) {
           spawnEnemies()
         }
 
@@ -478,7 +479,7 @@
               }
 
               if (enemy.radius - 10 > 5) {
-                score += 100
+                score += 10
                 scoreEl.innerHTML = score
 
                 createScoreLabel(projectile, 100)
@@ -491,7 +492,7 @@
                   }
                 }, 0)
               } else {
-                score += 250
+                score += 25
                 scoreEl.innerHTML = score
                 createScoreLabel(projectile, 250)
 
