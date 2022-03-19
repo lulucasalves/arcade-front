@@ -13,6 +13,31 @@
     <title>Space Invaders</title>
   </head>
   <body>
+    <img class="home" src="../img/home.svg" />
+
+    <div id="play">
+      <p class="mission">Mission: destroy as many enemies as possible</p>
+      <img class="play" src="../img/play.svg" />
+      <p>Play by controlling your keyboard</p>
+      <div class="controls">
+        <div class="move">
+          <div class="keyboardGroups">
+            <div class="keyboard">
+              <img class="arrow" src="../img/arrowLeft.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="../img/arrowRight.svg" />
+            </div>
+          </div>
+          <p class="description">MOVE</p>
+        </div>
+        <div class="shoot">
+          <div class="keyboard space">Space</div>
+          <p class="description">SHOOT</p>
+        </div>
+      </div>
+    </div>
     <div style="position: relative" id="parentDiv">
       <p><span>Score:</span> <span id="scoreEl">0</span></p>
       <canvas></canvas>

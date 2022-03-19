@@ -5,7 +5,7 @@ canvas.width = innerWidth
 canvas.height = innerHeight
 
 const scoreEl = document.querySelector('#scoreEl')
-const startGameBtn = document.querySelector('#startGameBtn')
+const startGameBtn = document.querySelector('#play')
 const modalEl = document.querySelector('#modalEl')
 const bigScoreEl = document.querySelector('#bigScoreEl')
 const whiteModalEl = document.querySelector('#whiteModalEl')
@@ -389,12 +389,9 @@ function animate() {
 
     if (dist - enemy.radius - player.radius < 1) {
       cancelAnimationFrame(animationFrames)
-      modalEl.style.display = 'flex'
-      bigScoreEl.innerHTML = score
-      screen.active = false
-      whiteModalEl.style.opacity = 1
-      whiteModalEl.style.scale = 1
-      whiteModalEl.style.duration = 0.5
+
+      alert('Game over!')
+      document.location.reload()
     }
 
     projectiles.forEach((projectile, projectileI) => {
@@ -420,7 +417,7 @@ function animate() {
           score += 10
           scoreEl.innerHTML = score
 
-          createScoreLabel(projectile, 100)
+          createScoreLabel(projectile, 10)
 
           enemy.radius -= 10
 
@@ -430,7 +427,7 @@ function animate() {
         } else {
           score += 25
           scoreEl.innerHTML = score
-          createScoreLabel(projectile, 250)
+          createScoreLabel(projectile, 25)
 
           setTimeout(() => {
             const enemyFound = enemies.find((enemyValue) => {
@@ -502,6 +499,8 @@ addEventListener('resize', () => {
 })
 
 startGameBtn.addEventListener('click', () => {
+  startGameBtn.style.display = 'none'
+
   init()
   animate()
 

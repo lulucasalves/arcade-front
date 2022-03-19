@@ -13,9 +13,39 @@
     <title>Tetris</title>
   </head>
   <body>
+    <img class="home" src="../img/home.svg" />
+
+    <div id="play">
+      <p class="mission">Mission: score as many points as possible</p>
+      <img class="play" src="../img/play.svg" />
+      <p>Play by controlling your keyboard</p>
+      <div class="controls">
+        <div class="move">
+          <div class="keyboardGroups">
+            <div class="keyboard">
+              <img class="arrow" src="../img/arrowLeft.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="../img/arrowDown.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="../img/arrowRight.svg" />
+            </div>
+          </div>
+          <p class="description">MOVE</p>
+        </div>
+        <div class="rotate">
+          <div class="keyboard">
+            <img class="arrow" src="../img/arrowTop.svg" />
+          </div>
+          <p class="description">ROTATE</p>
+        </div>
+      </div>
+    </div>
     <div class="scoreDiv">
-      <h3>Score:<span id="score">0</span></h3>
-      <button id="start-button">Start/Pause</button>
+      <h3>Score: <span id="score"> 0</span></h3>
     </div>
 
     <div class="container">

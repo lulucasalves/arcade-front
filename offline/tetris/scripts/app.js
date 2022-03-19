@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const scoreDisplay = document.querySelector('#score')
-  const startBtn = document.querySelector('#start-button')
+  const startBtn = document.querySelector('#play')
   const width = 10
   let nextRandom = 0
   let timerId
@@ -240,15 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   startBtn.addEventListener('click', () => {
-    if (timerId) {
-      clearInterval(timerId)
-      timerId = null
-    } else {
-      draw()
-      timerId = setInterval(moveDown, 700)
-      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-      displayShape()
-    }
+    startBtn.style.display = 'none'
+    draw()
+    timerId = setInterval(moveDown, 700)
+    nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+    displayShape()
   })
 
   function addScore() {
@@ -289,11 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
       )
     ) {
       alert('Game Over!')
-      clearInterval(timerId)
-    }
-
-    if (score > 999) {
-      alert('You Win!')
       clearInterval(timerId)
     }
   }
