@@ -284,8 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[currentPosition + i].classList.contains('taken')
       )
     ) {
-      alert('Game Over!')
+      alert(`Game over!\n\nTotal ${score} point(s)`)
       clearInterval(timerId)
+      document.location.reload()
     }
   }
 })

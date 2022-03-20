@@ -144,7 +144,7 @@ playButton.addEventListener('click', () => {
           scoreDisplay.innerHTML = 'You Win'
           clearInterval(timerId)
           document.removeEventListener('keydown', moveUser)
-          alert('You win!')
+          alert(`You win!\n\nTotal ${score} point(s)`)
           document.location.reload()
         }
       }
@@ -171,7 +171,7 @@ playButton.addEventListener('click', () => {
       clearInterval(timerId)
       scoreDisplay.innerHTML = 'Game over!'
       document.removeEventListener('keydown', moveUser)
-      alert('Game over!')
+      alert(`Game over!\n\nTotal ${score} point(s)`)
       document.location.reload()
     }
   }

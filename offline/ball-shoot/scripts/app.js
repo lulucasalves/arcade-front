@@ -390,7 +390,7 @@ function animate() {
     if (dist - enemy.radius - player.radius < 1) {
       cancelAnimationFrame(animationFrames)
 
-      alert('Game over!')
+      alert(`Game over!\n\nTotal ${score} point(s)`)
       document.location.reload()
     }
 

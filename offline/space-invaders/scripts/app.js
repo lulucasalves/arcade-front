@@ -290,7 +290,7 @@ playButton.addEventListener('click', () => {
     player.opacity = 0
 
     setInterval(() => {
-      alert("Game over!")
+      alert(`Game over!\n\nTotal ${score} point(s)`)
       document.location.reload()
     }, 1000)
   }
