@@ -1,6 +1,40 @@
+function randomIntFromRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function randomColor(color) {
+  return color[Math.floor(Math.random() * color.length)]
+}
+
 const platform = './public/platform.png'
 const hills = './public/hills.png'
 const background = './public/background.png'
+const platformSmallTall = '../public/platformSmallTall.png'
+const block = '../public/block.png'
+const blockTri = '../public/blockTri.png'
+const mdPlatform = '../public/mdPlatform.png'
+const lgPlatform = '../public/lgPlatform.png'
+const tPlatform = '../public/tPlatform.png'
+const xtPlatform = '../public/xtPlatform.png'
+const flagPoleSprite = '../public/flagPole.png'
+const spriteRunLeft = '../public/spriteRunLeft.png'
+const spriteRunRight = '../public/spriteRunRight.png'
+const spriteStandLeft = '../public/spriteStandLeft.png'
+const spriteStandRight = '../public/spriteStandRight.png'
+const spriteMarioRunLeft = '../public/spriteMarioRunLeft.png'
+const spriteMarioRunRight = '../public/spriteMarioRunRight.png'
+const spriteMarioStandLeft = '../public/spriteMarioStandLeft.png'
+const spriteMarioStandRight = '../public/spriteMarioStandRight.png'
+const spriteMarioJumpRight = '../public/spriteMarioJumpRight.png'
+const spriteMarioJumpLeft = '../public/spriteMarioJumpLeft.png'
+const spriteFireFlowerRunRight = '../public/spriteFireFlowerRunRight.png'
+const spriteFireFlowerRunLeft = '../public/spriteFireFlowerRunLeft.png'
+const spriteFireFlowerStandRight = '../public/spriteFireFlowerStandRight.png'
+const spriteFireFlowerStandLeft = '../public/spriteFireFlowerStandLeft.png'
+const spriteFireFlowerJumpRight = '../public/spriteFireFlowerJumpRight.png'
+const spriteFireFlowerJumpLeft = '../public/spriteFireFlowerJumpLeft.png'
+const spriteFireFlower = '../public/spriteFireFlower.png'
+const spriteGoomba = '../public/spriteGoomba.png'
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -57,6 +91,20 @@ class Platform {
   }
 }
 
+class GenericObject {
+  constructor({ x, y, image }) {
+    this.position = { x, y }
+
+    this.image = image
+    this.width = image.width
+    this.height = image.height
+  }
+
+  draw() {
+    c.drawImage(this.image, this.position.x, this.position.y)
+  }
+}
+
 let player = new Player()
 let platformImage
 let platformSmallTallImage
@@ -90,8 +138,25 @@ game = {
 const image = new Image()
 image.src = platform
 
-let platforms = [new Platform({ x: 0, y: 860, image })]
+const imageBackground = new Image()
+imageBackground.src = background
+
+const imageHills = new Image()
+imageHills.src = hills
+
+let platforms = []
+
 let genericObjects = []
+
+platforms = [new Platform({ x: 0, y: 860, image })]
+genericObjects = [
+  new GenericObject({ x: -1, y: -1, image: imageBackground }),
+
+  new GenericObject({ x: -1, y: 240, image: imageBackground }),
+
+  new GenericObject({ x: -1, y: 280, image: imageHills })
+]
+
 let goombas = []
 let particles = []
 let fireFlowers = []
@@ -100,6 +165,11 @@ function animate() {
   requestAnimationFrame(animate)
   c.fillStyle = 'white'
   c.fillRect(0, 0, canvas.width, canvas.height)
+
+  genericObjects.forEach((genericObject) => {
+    genericObject.draw()
+  })
+
   platforms.forEach((platform) => {
     platform.draw()
   })
@@ -129,6 +199,14 @@ function animate() {
     player.currentSprite !== player.sprites.stand.right
   ) {
     player.currentSprite = player.sprites.stand.right
+  }
+
+  if (scrollOffset > 2000) {
+    alert('You Win!')
+  }
+
+  if (player.position.y > canvas.height) {
+    alert('Game Over')
   }
 }
 
