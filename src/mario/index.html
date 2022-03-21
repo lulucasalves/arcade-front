@@ -1390,7 +1390,10 @@
             if (currentLevel === 1) {
               player.position.x = 100
               selectLevel(2)
-              currentLevel = 2
+
+              setInterval(() => {
+                currentLevel = 2
+              }, 10000)
             } else {
               alert('You Win!')
               document.location.reload()
