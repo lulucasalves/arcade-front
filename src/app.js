@@ -2,11 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const routers = require('./router')
-const favicon = require('serve-favicon')
-const path = require('path')
 require('dotenv/config')
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.svg')))
 app.use(cors())
 app.use(routers)
 
