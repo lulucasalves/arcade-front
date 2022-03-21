@@ -1388,9 +1388,9 @@
             })
           ) {
             if (currentLevel === 1) {
-              currentLevel = 2
+              player.position.x = 100
               selectLevel(2)
-              player.position.x === 100
+              currentLevel = 2
             } else {
               alert('You Win!')
               document.location.reload()
