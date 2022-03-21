@@ -728,7 +728,7 @@
         flagPoleImage = await createImageAsync(flagPoleSprite)
 
         flagPole = new GenericObject({
-          x: 6968 + 600,
+          x: 6968 + 800,
           y:
             canvas.height - 300 - lgPlatformImage.height - flagPoleImage.height,
           image: flagPoleImage
@@ -1387,10 +1387,9 @@
               object2: flagPole
             })
           ) {
-            if (currentLevel < 2) {
-              currentLevel++
-              gravity = 1.5
-              selectLevel(currentLevel)
+            if (currentLevel === 1) {
+              selectLevel(2)
+              player.position.x === 100
             } else {
               alert('You Win!')
               document.location.reload()
