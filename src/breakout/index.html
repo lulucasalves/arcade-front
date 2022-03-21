@@ -3,68 +3,171 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-        font-family: 'Roboto', sans-serif;
-        color: #fff;
-      }
+    <link rel="stylesheet" href="./styles/style.css" />
 
-      body {
-        background-color: #00010d;
-        justify-content: center;
-        display: flex;
-      }
-
-      button {
-        cursor: pointer;
-        border: none;
-      }
-
-      .grid {
-        margin-top: 225px;
-        position: absolute;
-        width: 780px;
-        height: 500px;
-        border: solid 1px #fff;
-      }
-
-      .user {
-        position: absolute;
-        width: 85px;
-        height: 20px;
-        outline: solid 2px #fff;
-      }
-
-      .block {
-        position: absolute;
-        width: 100px;
-        height: 20px;
-        background-color: white;
-      }
-
-      .ball {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        border-radius: 10px;
-        background-color: #1e6fd9;
-      }
-
-      #score {
-        margin-top: 150px;
-      }
-    </style>
-    <title>Brekout</title>
+    <title>Break bricks</title>
   </head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+    }
+
+    body {
+      background-color: #00010d;
+      justify-content: center;
+      display: flex;
+      overflow: hidden;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      color: white;
+      font-size: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    .grid {
+      margin-top: 225px;
+      position: absolute;
+      width: 780px;
+      height: 500px;
+      border: solid 1px #fff;
+    }
+
+    .user {
+      position: absolute;
+      width: 85px;
+      height: 20px;
+      outline: solid 2px #fff;
+    }
+
+    .block {
+      position: absolute;
+      width: 100px;
+      height: 20px;
+      background-color: white;
+    }
+
+    .ball {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background-color: #1e6fd9;
+    }
+
+    #score {
+      margin-top: 150px;
+    }
+
+    #play {
+      background-color: #000000ea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      cursor: default;
+    }
+
+    #play .play {
+      font-size: 20px;
+      margin: 15px 0 80px 0;
+      font-family: 'Press Start 2P', sans-serif;
+      padding: 25px 25px;
+      border: 1px solid white;
+      border-radius: 50px;
+      line-height: 0;
+    }
+
+    #play p {
+      font-size: 20px;
+    }
+
+    #play .arrow {
+      width: 25px;
+    }
+
+    .home {
+      width: 30px;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 20;
+      cursor: pointer;
+    }
+
+    .keyboard {
+      background-color: rgb(114, 114, 114);
+      padding: 15px;
+      margin: 0 7px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      border-radius: 2px 2px 8px 8px;
+    }
+
+    .keyboardGroups {
+      display: flex;
+    }
+
+    .description {
+      margin-top: 15px !important;
+      margin-bottom: 15px !important;
+      font-weight: 300;
+      font-size: 18px !important;
+    }
+
+    .move {
+      text-align: center;
+    }
+
+    .controls {
+      justify-content: center;
+      display: flex;
+      margin-top: 30px;
+    }
+
+    .mission {
+      font-family: 'Press Start 2P', sans-serif;
+      color: #f2ce16;
+      font-size: 25px;
+    }
+  </style>
   <body>
+    <img class="home" src="./img/home.svg" />
+
+    <div id="play">
+      <p class="mission">BREAK BRICKS</p>
+      <h1 class="play">PRESS START</h1>
+      <p>Play by controlling your keyboard</p>
+      <div class="controls">
+        <div class="move">
+          <div class="keyboardGroups">
+            <div class="keyboard">
+              <img class="arrow" src="./img/arrowLeft.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="./img/arrowRight.svg" />
+            </div>
+          </div>
+          <p class="description">MOVE</p>
+        </div>
+      </div>
+      <p class="description">Tip: hold the key to move faster</p>
+    </div>
+
     <h1 id="score">0</h1>
     <div class="grid"></div>
 
@@ -89,173 +192,183 @@
       const ballStart = [randomPosition, 90]
       let ballCurrentPosition = ballStart
 
-      class Block {
-        constructor(xAxis, yAxis) {
-          this.bottomLeft = [xAxis, yAxis]
-          this.bottomRight = [xAxis + blockWidth, yAxis]
-          this.topLeft = [xAxis, yAxis + blockHeight]
-          this.topRight = [xAxis + blockWidth, yAxis + blockHeight]
-        }
-      }
+      const playButton = document.querySelector('#play')
 
-      const blocks = [
-        new Block(10, 470),
-        new Block(120, 470),
-        new Block(230, 470),
-        new Block(340, 470),
-        new Block(450, 470),
-        new Block(560, 470),
-        new Block(670, 470),
-        new Block(10, 440),
-        new Block(120, 440),
-        new Block(230, 440),
-        new Block(340, 440),
-        new Block(450, 440),
-        new Block(560, 440),
-        new Block(560, 470),
-        new Block(670, 440),
-        new Block(10, 410),
-        new Block(120, 410),
-        new Block(230, 410),
-        new Block(340, 410),
-        new Block(450, 410),
-        new Block(560, 410),
-        new Block(670, 410)
-      ]
+      playButton.addEventListener('click', () => {
+        playButton.style.display = 'none'
 
-      function addBlock() {
-        for (let i = 0; i < blocks.length; i++) {
-          const block = document.createElement('div')
-          block.classList.add('block')
-          block.style.left = blocks[i].bottomLeft[0] + 'px'
-          block.style.bottom = blocks[i].bottomLeft[1] + 'px'
-          grid.appendChild(block)
-        }
-      }
-
-      addBlock()
-
-      const user = document.createElement('div')
-      user.classList.add('user')
-      grid.appendChild(user)
-      drawUser()
-
-      const ball = document.createElement('div')
-      ball.classList.add('ball')
-      grid.appendChild(ball)
-      drawBall()
-
-      function moveUser(e) {
-        switch (e.key) {
-          case 'ArrowLeft':
-            if (currentPosition[0] > 0) {
-              currentPosition[0] -= 20
-              drawUser()
-            }
-            break
-          case 'ArrowRight':
-            if (currentPosition[0] < boardWidth - blockWidth) {
-              currentPosition[0] += 20
-              drawUser()
-            }
-            break
-        }
-      }
-
-      document.addEventListener('keydown', moveUser)
-
-      function drawUser() {
-        user.style.left = currentPosition[0] + 'px'
-        user.style.bottom = currentPosition[1] + 'px'
-      }
-
-      function drawBall() {
-        ball.style.left = ballCurrentPosition[0] + 'px'
-        ball.style.bottom = ballCurrentPosition[1] + 'px'
-      }
-
-      function moveBall() {
-        ballCurrentPosition[0] += xDirection
-        ballCurrentPosition[1] += yDirection
-        drawBall()
-        checkForCollisions()
-      }
-
-      timerId = setInterval(moveBall, 10)
-
-      function checkForCollisions() {
-        for (let i = 0; i < blocks.length; i++) {
-          if (
-            ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
-            ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
-            ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
-            ballCurrentPosition[1] < blocks[i].topLeft[1]
-          ) {
-            const allBlocks = Array.from(document.querySelectorAll('.block'))
-            allBlocks[i].classList.remove('block')
-            blocks.splice(i, 1)
-
-            const heightBlock = allBlocks[i].style.bottom
-            const [value] = heightBlock.split('p')
-
-            changeDirection()
-            if (ballCurrentPosition[1] < parseInt(value)) {
-              yDirection = -2
-            }
-
-            score++
-            scoreDisplay.innerHTML = score
-
-            if (blocks.length === 0) {
-              scoreDisplay.innerHTML = 'You Win'
-              clearInterval(timerId)
-              document.removeEventListener('keydown', moveUser)
-            }
+        class Block {
+          constructor(xAxis, yAxis) {
+            this.bottomLeft = [xAxis, yAxis]
+            this.bottomRight = [xAxis + blockWidth, yAxis]
+            this.topLeft = [xAxis, yAxis + blockHeight]
+            this.topRight = [xAxis + blockWidth, yAxis + blockHeight]
           }
         }
 
-        if (
-          ballCurrentPosition[0] >= boardWidth - ballDiameter ||
-          ballCurrentPosition[0] <= 0 ||
-          ballCurrentPosition[1] >= boardHeight - ballDiameter
-        ) {
-          changeDirection()
+        const blocks = [
+          new Block(10, 470),
+          new Block(120, 470),
+          new Block(230, 470),
+          new Block(340, 470),
+          new Block(450, 470),
+          new Block(560, 470),
+          new Block(670, 470),
+          new Block(10, 440),
+          new Block(120, 440),
+          new Block(230, 440),
+          new Block(340, 440),
+          new Block(450, 440),
+          new Block(560, 440),
+          new Block(560, 470),
+          new Block(670, 440),
+          new Block(10, 410),
+          new Block(120, 410),
+          new Block(230, 410),
+          new Block(340, 410),
+          new Block(450, 410),
+          new Block(560, 410),
+          new Block(670, 410)
+        ]
+
+        function addBlock() {
+          for (let i = 0; i < blocks.length; i++) {
+            const block = document.createElement('div')
+            block.classList.add('block')
+            block.style.left = blocks[i].bottomLeft[0] + 'px'
+            block.style.bottom = blocks[i].bottomLeft[1] + 'px'
+            grid.appendChild(block)
+          }
         }
 
-        if (
-          ballCurrentPosition[0] > currentPosition[0] &&
-          ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
-          ballCurrentPosition[1] > currentPosition[1] &&
-          ballCurrentPosition[1] < currentPosition[1] + blockHeight
-        ) {
-          changeDirection()
+        addBlock()
+
+        const user = document.createElement('div')
+        user.classList.add('user')
+        grid.appendChild(user)
+        drawUser()
+
+        const ball = document.createElement('div')
+        ball.classList.add('ball')
+        grid.appendChild(ball)
+        drawBall()
+
+        function moveUser(e) {
+          switch (e.key) {
+            case 'ArrowLeft':
+              if (currentPosition[0] > 0) {
+                currentPosition[0] -= 20
+                drawUser()
+              }
+              break
+            case 'ArrowRight':
+              if (currentPosition[0] < boardWidth - blockWidth) {
+                currentPosition[0] += 20
+                drawUser()
+              }
+              break
+          }
         }
 
-        if (ballCurrentPosition[1] <= 0) {
-          clearInterval(timerId)
-          scoreDisplay.innerHTML = 'You Lose'
-          document.removeEventListener('keydown', moveUser)
-        }
-      }
+        document.addEventListener('keydown', moveUser)
 
-      function changeDirection() {
-        if (xDirection === 2 && yDirection === 2) {
-          yDirection = -2
-          return
+        function drawUser() {
+          user.style.left = currentPosition[0] + 'px'
+          user.style.bottom = currentPosition[1] + 'px'
         }
-        if (xDirection === 2 && yDirection === -2) {
-          xDirection = -2
-          return
+
+        function drawBall() {
+          ball.style.left = ballCurrentPosition[0] + 'px'
+          ball.style.bottom = ballCurrentPosition[1] + 'px'
         }
-        if (xDirection === -2 && yDirection === -2) {
-          yDirection = 2
-          return
+
+        function moveBall() {
+          ballCurrentPosition[0] += xDirection
+          ballCurrentPosition[1] += yDirection
+          drawBall()
+          checkForCollisions()
         }
-        if (xDirection === -2 && yDirection === 2) {
-          xDirection = 2
-          return
+
+        timerId = setInterval(moveBall, 10)
+
+        function checkForCollisions() {
+          for (let i = 0; i < blocks.length; i++) {
+            if (
+              ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
+              ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+              ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
+              ballCurrentPosition[1] < blocks[i].topLeft[1]
+            ) {
+              const allBlocks = Array.from(document.querySelectorAll('.block'))
+              allBlocks[i].classList.remove('block')
+              blocks.splice(i, 1)
+
+              const heightBlock = allBlocks[i].style.bottom
+              const [value] = heightBlock.split('p')
+
+              changeDirection()
+              if (ballCurrentPosition[1] < parseInt(value)) {
+                yDirection = -2
+              }
+
+              score++
+              scoreDisplay.innerHTML = score
+
+              if (blocks.length === 0) {
+                scoreDisplay.innerHTML = 'You Win'
+                clearInterval(timerId)
+                document.removeEventListener('keydown', moveUser)
+                alert(`You win!\n\nTotal ${score} point(s)`)
+                document.location.reload()
+              }
+            }
+          }
+
+          if (
+            ballCurrentPosition[0] >= boardWidth - ballDiameter ||
+            ballCurrentPosition[0] <= 0 ||
+            ballCurrentPosition[1] >= boardHeight - ballDiameter
+          ) {
+            changeDirection()
+          }
+
+          if (
+            ballCurrentPosition[0] > currentPosition[0] &&
+            ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
+            ballCurrentPosition[1] > currentPosition[1] &&
+            ballCurrentPosition[1] < currentPosition[1] + blockHeight
+          ) {
+            changeDirection()
+          }
+
+          if (ballCurrentPosition[1] <= 0) {
+            clearInterval(timerId)
+            scoreDisplay.innerHTML = 'Game over!'
+            document.removeEventListener('keydown', moveUser)
+            alert(`Game over!\n\nTotal ${score} point(s)`)
+            document.location.reload()
+          }
         }
-      }
+
+        function changeDirection() {
+          if (xDirection === 2 && yDirection === 2) {
+            yDirection = -2
+            return
+          }
+          if (xDirection === 2 && yDirection === -2) {
+            xDirection = -2
+            return
+          }
+          if (xDirection === -2 && yDirection === -2) {
+            yDirection = 2
+            return
+          }
+          if (xDirection === -2 && yDirection === 2) {
+            xDirection = 2
+            return
+          }
+        }
+      })
     </script>
   </body>
 </html>

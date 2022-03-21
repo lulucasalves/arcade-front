@@ -3,90 +3,193 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        padding: 0;
-        font-family: 'Roboto', sans-serif;
-        color: #fff;
-      }
+    <link rel="stylesheet" href="./styles/style.css" />
 
-      body {
-        background-color: #00010d;
-      }
-
-      button {
-        cursor: pointer;
-        width: 140px;
-        height: 40px;
-        background-color: #0c1250;
-        border: none;
-        font-weight: 500;
-        font-size: 16px;
-      }
-
-      .container {
-        display: flex;
-        justify-content: center;
-      }
-
-      .grid {
-        width: 400px;
-        height: 800px;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .grid div {
-        height: 40px;
-        width: 40px;
-      }
-
-      .tetromino {
-        background-color: #049dd9;
-        outline: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .mini-grid {
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        margin-left: 50px;
-        width: 160px;
-        height: 160px;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .mini-grid div {
-        height: 40px;
-        width: 40px;
-      }
-
-      .scoreDiv {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        align-items: center;
-      }
-
-      h3 {
-        margin-right: 30px;
-        font-size: 24px;
-      }
-    </style>
     <title>Tetris</title>
   </head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+    * {
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+    }
+
+    body {
+      background-color: #00010d;
+      overflow: hidden;
+      font-weight: 400;
+      color: white;
+      font-size: 14px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .grid {
+      width: 400px;
+      height: 800px;
+      display: flex;
+      flex-wrap: wrap;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .grid div {
+      height: 40px;
+      width: 40px;
+    }
+
+    .tetromino {
+      background-color: #049dd9;
+      outline: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mini-grid {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      margin-left: 50px;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      flex-wrap: wrap;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .mini-grid div {
+      height: 40px;
+      width: 40px;
+    }
+
+    .scoreDiv {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    h3 {
+      margin-right: 30px;
+      font-size: 24px;
+    }
+
+    #play {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 1, 13, 0.95);
+      z-index: 10;
+      cursor: default;
+    }
+
+    #play p {
+      font-size: 20px;
+    }
+
+    #play .arrow {
+      width: 25px;
+    }
+
+    .home {
+      width: 30px;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 20;
+      cursor: pointer;
+    }
+
+    .keyboard {
+      background-color: rgb(114, 114, 114);
+      padding: 15px;
+      margin: 0 7px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      border-radius: 2px 2px 8px 8px;
+    }
+
+    .keyboardGroups {
+      display: flex;
+    }
+
+    .description {
+      font-weight: 400;
+      font-size: 18px !important;
+    }
+
+    .move {
+      text-align: center;
+      margin-right: 25px;
+    }
+
+    .rotate {
+      margin-left: 30px;
+      text-align: center;
+    }
+
+    .controls {
+      justify-content: center;
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .mission {
+      font-family: 'Press Start 2P', sans-serif;
+      color: #f2ce16;
+      font-size: 25px;
+    }
+
+    #play .play {
+      font-size: 20px;
+      margin: 0 0 50px 0;
+      font-family: 'Press Start 2P', sans-serif;
+      padding: 25px 25px;
+      border: 1px solid white;
+      border-radius: 50px;
+      line-height: 0;
+    }
+  </style>
   <body>
+    <img class="home" src="./img/home.svg" />
+
+    <div id="play">
+      <p class="mission">TETRIS</p>
+      <h1 class="play">PRESS START</h1>
+      <p>Play by controlling your keyboard</p>
+      <div class="controls">
+        <div class="move">
+          <div class="keyboardGroups">
+            <div class="keyboard">
+              <img class="arrow" src="./img/arrowLeft.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="./img/arrowDown.svg" />
+            </div>
+
+            <div class="keyboard">
+              <img class="arrow" src="./img/arrowRight.svg" />
+            </div>
+          </div>
+          <p class="description">MOVE</p>
+        </div>
+        <div class="rotate">
+          <div class="keyboard">
+            <img class="arrow" src="./img/arrowTop.svg" />
+          </div>
+          <p class="description">ROTATE</p>
+        </div>
+      </div>
+    </div>
     <div class="scoreDiv">
-      <h3>Score:<span id="score">0</span></h3>
-      <button id="start-button">Start/Pause</button>
+      <h3>Score: <span id="score"> 0</span></h3>
     </div>
 
     <div class="container">
@@ -118,7 +221,7 @@
         }
 
         const scoreDisplay = document.querySelector('#score')
-        const startBtn = document.querySelector('#start-button')
+        const startBtn = document.querySelector('#play')
         const width = 10
         let nextRandom = 0
         let timerId
@@ -343,15 +446,11 @@
         }
 
         startBtn.addEventListener('click', () => {
-          if (timerId) {
-            clearInterval(timerId)
-            timerId = null
-          } else {
-            draw()
-            timerId = setInterval(moveDown, 700)
-            nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-            displayShape()
-          }
+          startBtn.style.display = 'none'
+          draw()
+          timerId = setInterval(moveDown, 700)
+          nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+          displayShape()
         })
 
         function addScore() {
@@ -393,13 +492,9 @@
               squares[currentPosition + i].classList.contains('taken')
             )
           ) {
-            alert('Game Over!')
+            alert(`Game over!\n\nTotal ${score} point(s)`)
             clearInterval(timerId)
-          }
-
-          if (score > 999) {
-            alert('You Win!')
-            clearInterval(timerId)
+            document.location.reload()
           }
         }
       })

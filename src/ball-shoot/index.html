@@ -3,52 +3,139 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
     <link
       href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" href="../favicon.svg" />
     <title>Ball Shoot</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
       body {
         margin: 0;
-        background-color: #00010d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        font-family: sans-serif;
+        font-size: 14px;
         overflow: hidden;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        color: white;
+      }
+
+      .blackBackground {
+        background-color: #000000ce;
+      }
+
+      .controls {
+        justify-content: center;
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .score {
+        top: 10px;
+        right: 10px;
+      }
+
+      #play {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #00010d;
+        z-index: 10;
+        cursor: default;
+      }
+
+      #play .play {
+        font-size: 20px;
+        margin: 20px 0 50px 0 !important;
+        font-family: 'Press Start 2P', sans-serif;
+        padding: 25px 25px;
+        border: 1px solid white;
+        border-radius: 50px;
+        line-height: 0;
+      }
+
+      #play p {
+        font-size: 20px;
+      }
+
+      #play .mouse {
+        margin: 15px 10px;
+        width: 50px;
+      }
+
+      #play .arrow {
+        width: 25px;
+      }
+
+      .home {
+        width: 30px;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 20;
+        cursor: pointer;
+      }
+
+      .mission {
+        font-family: 'Press Start 2P', sans-serif;
+        color: #f2ce16;
+        font-size: 25px;
+      }
+
+      #play .play {
+        font-size: 20px;
+        margin: 10px 0 50px 0;
+        font-family: 'Press Start 2P', sans-serif;
+        padding: 25px 25px;
+        border: 1px solid white;
+        border-radius: 50px;
+        line-height: 0;
+      }
+
+      .description {
+        font-weight: 300;
+        font-size: 18px !important;
       }
     </style>
   </head>
   <body>
-    <div class="fixed text-white text-sm ml-2 mt-1 select-none">
+    <img class="home" src="./img/home.svg" />
+
+    <div class="absolute score text-white text-sm select-none">
       <span>Score: </span><span id="scoreEl">0</span>
     </div>
 
-    <div class="fixed inset-0 flex items-center justify-center" id="modalEl">
-      <div
-        id="whiteModalEl"
-        class="rounded-lg bg-white max-w-md w-full p-6 text-center"
-      >
-        <h1 class="text-4xl font-bold leading-none" id="bigScoreEl">0</h1>
-        <p class="text-sm text-gray-700 mb-4">Points</p>
-        <div>
-          <button
-            class="bg-blue-500 text-white w-full py-3 rounded-full text-sm"
-            id="startGameBtn"
-          >
-            Start Game
-          </button>
+    <div id="play">
+      <p class="mission">BALL SHOOT</p>
+
+      <h1 class="play">PRESS START</h1>
+
+      <div class="mt-5 controls flex flex-col items-center justify-center">
+        <p>Play by controlling your mouse</p>
+        <img class="arrow mt-5" src="./img/arrowTop.svg" />
+        <div class="flex">
+          <img class="arrow" src="./img/arrowLeft.svg" />
+          <img class="mouse" src="./img/mouse.svg" />
+          <img class="arrow" src="./img/arrowRight.svg" />
         </div>
+        <img class="arrow" src="./img/arrowDown.svg" />
+
+        <p class="mt-5 description">Click to shoot in your enemies</p>
       </div>
     </div>
 
     <canvas></canvas>
 
-    <script type="module">
+    <script>
       const canvas = document.querySelector('canvas')
       const c = canvas.getContext('2d')
 
@@ -56,7 +143,7 @@
       canvas.height = innerHeight
 
       const scoreEl = document.querySelector('#scoreEl')
-      const startGameBtn = document.querySelector('#startGameBtn')
+      const startGameBtn = document.querySelector('#play')
       const modalEl = document.querySelector('#modalEl')
       const bigScoreEl = document.querySelector('#bigScoreEl')
       const whiteModalEl = document.querySelector('#whiteModalEl')
@@ -357,9 +444,7 @@
         document.body.appendChild(scoreLabel)
 
         setInterval(() => {
-          if (scoreLabel.parentNode) {
-            scoreLabel.parentNode.removeChild(scoreLabel)
-          }
+          scoreLabel.parentNode.removeChild(scoreLabel)
         }, 1000)
       }
 
@@ -373,7 +458,7 @@
         c.fillStyle = 'rgba(0, 0, 0, 0.1)'
         c.fillRect(0, 0, canvas.width, canvas.height)
 
-        if (frame % 50 === 0) {
+        if (frame % 35 === 0) {
           spawnEnemies()
         }
 
@@ -448,12 +533,9 @@
 
           if (dist - enemy.radius - player.radius < 1) {
             cancelAnimationFrame(animationFrames)
-            modalEl.style.display = 'flex'
-            bigScoreEl.innerHTML = score
-            screen.active = false
-            whiteModalEl.style.opacity = 1
-            whiteModalEl.style.scale = 1
-            whiteModalEl.style.duration = 0.5
+
+            alert(`Game over!\n\nTotal ${score} point(s)`)
+            document.location.reload()
           }
 
           projectiles.forEach((projectile, projectileI) => {
@@ -482,19 +564,17 @@
                 score += 10
                 scoreEl.innerHTML = score
 
-                createScoreLabel(projectile, 100)
+                createScoreLabel(projectile, 10)
 
                 enemy.radius -= 10
 
                 setTimeout(() => {
-                  if (projectile.length > 0) {
-                    projectile.splice(projectileI, 1)
-                  }
+                  projectile.splice(projectileI, 1)
                 }, 0)
               } else {
                 score += 25
                 scoreEl.innerHTML = score
-                createScoreLabel(projectile, 250)
+                createScoreLabel(projectile, 25)
 
                 setTimeout(() => {
                   const enemyFound = enemies.find((enemyValue) => {
@@ -503,7 +583,7 @@
 
                   if (enemyFound) {
                     enemies.splice(index, 1)
-                    projectiles.splice(projectileI, 1)
+                    projectiles.splice(projectileIndex, 1)
                   }
                 }, 0)
               }
@@ -566,6 +646,8 @@
       })
 
       startGameBtn.addEventListener('click', () => {
+        startGameBtn.style.display = 'none'
+
         init()
         animate()
 

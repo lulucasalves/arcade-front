@@ -26,6 +26,14 @@ router.get('/mario', (req, res) => {
   res.sendFile(path.join(__dirname + '/mario/index.html'))
 })
 
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/principal/index.html'))
+})
+
+router.get('/betaGames', (req, res) => {
+  res.sendFile(path.join(__dirname + '/betaGames/index.html'))
+})
+
 //IMAGES
 router.get('/ball-shoot/lightning.png', (req, res) => {
   res.sendFile(path.join(__dirname + '/ball-shoot/lightning.png'))
@@ -37,6 +45,30 @@ router.get('/space-invaders/spaceship.png', (req, res) => {
 
 router.get('/space-invaders/invader.png', (req, res) => {
   res.sendFile(path.join(__dirname + '/space-invaders/invader.png'))
+})
+
+router.get('/img/arrowDown.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/arrowDown.svg'))
+})
+
+router.get('/img/arrowRight.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/arrowRight.svg'))
+})
+
+router.get('/img/arrowLeft.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/arrowLeft.svg'))
+})
+
+router.get('/img/arrowTop.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/arrowTop.svg'))
+})
+
+router.get('/img/home.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/home.svg'))
+})
+
+router.get('/img/mouse.svg', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/img/mouse.svg'))
 })
 
 //FAVICON
