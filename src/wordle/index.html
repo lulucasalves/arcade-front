@@ -269,11 +269,11 @@
         flipTile()
 
         if (currentTile > 4) {
-          if (wordle[currentRow] == guess && currentRow == 5) {
+          if (wordle[currentRow] === guess && currentRow === 5) {
             alert('You Win!')
           }
 
-          if (wordle[currentRow] == guess) {
+          if (wordle[currentRow] === guess) {
             showMessage('Magnificent!')
 
             currentRow++
@@ -311,7 +311,7 @@
         const new_key = document.getElementById(key)
         new_key.classList.add(color)
 
-        if (wordle[currentRow - 1] == guess) {
+        if (wordle[currentRow - 1] === guess) {
           removeColorToKey()
         }
       }
@@ -331,7 +331,7 @@
         })
 
         guess.forEach((guess, index) => {
-          if (guess.letter == wordle[currentRow][index]) {
+          if (guess.letter === wordle[currentRow][index]) {
             guess.color = 'green-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
           }

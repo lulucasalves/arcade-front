@@ -191,7 +191,7 @@
 
       const home = document.querySelector('.home')
       home.addEventListener('click', () => {
-        window.location.href = '/home'
+        window.location.href = '/'
       })
       //images
       const platform = './mario/platform.png'
@@ -1396,7 +1396,7 @@
               })
             ) {
               setTimeout(() => {
-                if (currentLevel == 1) {
+                if (currentLevel < 2) {
                   currentLevel++
                   gravity = 1.5
                   selectLevel(currentLevel)
@@ -1404,7 +1404,7 @@
                   alert('You Win!')
                   document.location.reload()
                 }
-              }, 0)
+              }, 5000)
             }
           }
 

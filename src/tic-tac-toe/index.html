@@ -344,10 +344,10 @@
         },
 
         changeGamer() {
-          this.whoInit = this.whoInit == 'player' ? 'bot' : 'player'
+          this.whoInit = this.whoInit === 'player' ? 'bot' : 'player'
 
           this.symbols.options =
-            this.symbols.options[0] == 'O' ? ['X', 'O'] : ['O', 'X']
+            this.symbols.options[0] === 'O' ? ['X', 'O'] : ['O', 'X']
         },
 
         start() {
@@ -381,9 +381,9 @@
         checkWinning(symbol) {
           for (i in this.winningSequences) {
             if (
-              this.board[this.winningSequences[i][0]] == symbol &&
-              this.board[this.winningSequences[i][1]] == symbol &&
-              this.board[this.winningSequences[i][2]] == symbol
+              this.board[this.winningSequences[i][0]] === symbol &&
+              this.board[this.winningSequences[i][1]] === symbol &&
+              this.board[this.winningSequences[i][2]] === symbol
             ) {
               const winnerInfo = {
                 symbol: symbol,
@@ -405,10 +405,10 @@
         },
 
         botCommands() {
-          if (this.level == 'hard') {
+          if (this.level === 'hard') {
             let paramsList = []
             for (i in this.board) {
-              if (this.board[i] == '') {
+              if (this.board[i] === '') {
                 paramsList.push(i)
               }
             }
@@ -421,11 +421,11 @@
 
             for (i in seq) {
               const first =
-                this.board[seq[i][0]] == 'X' && this.board[seq[i][1]] == 'X'
+                this.board[seq[i][0]] === 'X' && this.board[seq[i][1]] === 'X'
               const second =
-                this.board[seq[i][0]] == 'X' && this.board[seq[i][2]] == 'X'
+                this.board[seq[i][0]] === 'X' && this.board[seq[i][2]] === 'X'
               const third =
-                this.board[seq[i][1]] == 'X' && this.board[seq[i][2]] == 'X'
+                this.board[seq[i][1]] === 'X' && this.board[seq[i][2]] === 'X'
 
               if (
                 first &&
@@ -454,11 +454,11 @@
 
             for (i in seq) {
               const first =
-                this.board[seq[i][0]] == 'O' && this.board[seq[i][1]] == 'O'
+                this.board[seq[i][0]] === 'O' && this.board[seq[i][1]] === 'O'
               const second =
-                this.board[seq[i][0]] == 'O' && this.board[seq[i][2]] == 'O'
+                this.board[seq[i][0]] === 'O' && this.board[seq[i][2]] === 'O'
               const third =
-                this.board[seq[i][1]] == 'O' && this.board[seq[i][2]] == 'O'
+                this.board[seq[i][1]] === 'O' && this.board[seq[i][2]] === 'O'
 
               if (
                 first &&
@@ -487,7 +487,7 @@
 
             if (!isNaN(random)) {
               if (
-                this.whoInit == 'bot' &&
+                this.whoInit === 'bot' &&
                 !this.board.includes('O') &&
                 !this.board.includes('X')
               ) {
@@ -521,10 +521,10 @@
                 return true
               }
             }
-          } else if (this.level == 'normal') {
+          } else if (this.level === 'normal') {
             let paramsList = []
             for (i in this.board) {
-              if (this.board[i] == '') {
+              if (this.board[i] === '') {
                 paramsList.push(i)
               }
             }
@@ -536,11 +536,11 @@
 
             for (i in seq) {
               const first =
-                this.board[seq[i][0]] == 'X' && this.board[seq[i][1]] == 'X'
+                this.board[seq[i][0]] === 'X' && this.board[seq[i][1]] === 'X'
               const second =
-                this.board[seq[i][0]] == 'X' && this.board[seq[i][2]] == 'X'
+                this.board[seq[i][0]] === 'X' && this.board[seq[i][2]] === 'X'
               const third =
-                this.board[seq[i][1]] == 'X' && this.board[seq[i][2]] == 'X'
+                this.board[seq[i][1]] === 'X' && this.board[seq[i][2]] === 'X'
 
               if (
                 first &&
@@ -569,7 +569,7 @@
 
             if (!isNaN(random)) {
               if (
-                this.whoInit == 'bot' &&
+                this.whoInit === 'bot' &&
                 !this.board.includes('O') &&
                 !this.board.includes('X')
               ) {
@@ -603,7 +603,7 @@
 
             let paramsList = []
             for (i in this.board) {
-              if (this.board[i] == '') {
+              if (this.board[i] === '') {
                 paramsList.push(i)
               }
             }
@@ -655,7 +655,7 @@
             }
 
             if (
-              this.whoInit == 'bot' &&
+              this.whoInit === 'bot' &&
               !this.board.includes('O') &&
               !this.board.includes('X')
             ) {
@@ -681,7 +681,7 @@
                   this.winningSequences[winningSequencesDefault.position][2] ==
                     i
                 ) {
-                  if (winningSequencesDefault.symbol == 'X') {
+                  if (winningSequencesDefault.symbol === 'X') {
                     if (botPoints) {
                       localStorage.setItem('bot_points', botPoints + 1)
                     } else {
@@ -694,7 +694,7 @@
                       `)"> ${this.board[i]} </div>`
 
                     this.lastPlay = 'O'
-                  } else if (winningSequencesDefault.symbol == 'O') {
+                  } else if (winningSequencesDefault.symbol === 'O') {
                     if (playerPoints) {
                       localStorage.setItem('player_points', playerPoints + 1)
                     } else {
@@ -716,9 +716,9 @@
               }
             }
 
-            if (winningSequencesDefault.symbol == 'O') {
+            if (winningSequencesDefault.symbol === 'O') {
               youWin += `<p class="youWin">YOU WIN</p>`
-            } else if (winningSequencesDefault.symbol == 'X') {
+            } else if (winningSequencesDefault.symbol === 'X') {
               youWin += `<p class="youLost">YOU LOST</p>`
             } else if (!this.board.includes('')) {
               youWin += `<p class="youLost">DRAW</p>`
