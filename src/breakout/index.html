@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/style.css" />
-
-    <title>Break bricks</title>
+    <title>Break Bricks</title>
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@100;300;400;500;700;900&display=swap');
@@ -34,7 +32,7 @@
     }
 
     .grid {
-      margin-top: 225px;
+      margin-top: 200px;
       position: absolute;
       width: 780px;
       height: 500px;
@@ -64,7 +62,7 @@
     }
 
     #score {
-      margin-top: 150px;
+      margin-top: 125px;
     }
 
     #play {
@@ -143,8 +141,47 @@
       color: #f2ce16;
       font-size: 25px;
     }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      position: absolute;
+      background-color: #00010d;
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      font-family: 'Press Start 2P', sans-serif;
+    }
+
+    .loading p {
+      margin-top: 20px;
+    }
+
+    @keyframes upDown {
+      0% {
+        margin-right: 0px;
+        margin-left: 80px;
+      }
+
+      50% {
+        margin-right: 80px;
+        margin-left: 0px;
+      }
+
+      100% {
+        margin-right: 0px;
+        margin-left: 80px;
+      }
+    }
   </style>
   <body>
+    <div class="loading">
+      <p>Loading...</p>
+    </div>
+
     <img class="home" src="./img/home.svg" />
 
     <div id="play">
@@ -172,6 +209,17 @@
     <div class="grid"></div>
 
     <script>
+      let loading = document.querySelector('.loading')
+
+      window.addEventListener('load', () => {
+        loading.parentElement.removeChild(loading)
+      })
+
+      const home = document.querySelector('.home')
+      home.addEventListener('click', () => {
+        window.location.href = '/'
+      })
+
       const grid = document.querySelector('.grid')
       const scoreDisplay = document.querySelector('#score')
       const blockWidth = 110

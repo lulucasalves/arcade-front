@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Extras</title>
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@100;300;400;500;700;900&display=swap');
@@ -75,8 +75,46 @@
         padding: 10px 100px 10px 20px;
       }
     }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      position: absolute;
+      background-color: #00010d;
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      font-family: 'Press Start 2P', sans-serif;
+    }
+
+    .loading p {
+      margin-top: 20px;
+    }
+
+    @keyframes upDown {
+      0% {
+        margin-right: 0px;
+        margin-left: 80px;
+      }
+
+      50% {
+        margin-right: 80px;
+        margin-left: 0px;
+      }
+
+      100% {
+        margin-right: 0px;
+        margin-left: 80px;
+      }
+    }
   </style>
   <body>
+    <div class="loading">
+      <p>Loading...</p>
+    </div>
     <header>
       <h1>ARCADE</h1>
     </header>
@@ -90,17 +128,33 @@
     </section>
 
     <script>
+      let loading = document.querySelector('.loading')
+
+      window.addEventListener('load', () => {
+        loading.parentElement.removeChild(loading)
+      })
+
       const pacMan = document.querySelector('.pacMan')
       const candyCrush = document.querySelector('.candyCrush')
       const ticTacToe = document.querySelector('.ticTacToe')
       const wordle = document.querySelector('.wordle')
       const back = document.querySelector('.back')
 
-      pacMan.addEventListener('click', () => {})
-      candyCrush.addEventListener('click', () => {})
-      ticTacToe.addEventListener('click', () => {})
-      wordle.addEventListener('click', () => {})
-      back.addEventListener('click', () => {})
+      pacMan.addEventListener('click', () => {
+        window.location.href = '/pac-man'
+      })
+      candyCrush.addEventListener('click', () => {
+        window.location.href = '/candy-crush'
+      })
+      ticTacToe.addEventListener('click', () => {
+        window.location.href = '/tic-tac-toe'
+      })
+      wordle.addEventListener('click', () => {
+        window.location.href = '/wordle'
+      })
+      back.addEventListener('click', () => {
+        window.location.href = '/'
+      })
     </script>
   </body>
 </html>
