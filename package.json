@@ -6,7 +6,8 @@
   "author": "lulucas <lucas.alves.supus@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
