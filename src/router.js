@@ -42,7 +42,7 @@ router.get('/mario', (req, res) => {
   res.sendFile(path.join(__dirname + '/mario/index.html'))
 })
 
-router.get('/', (req, res) => {
+router.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname + '/principal/index.html'))
 })
 
