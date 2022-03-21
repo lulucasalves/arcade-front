@@ -338,7 +338,7 @@
         })
 
         guess.forEach((guess) => {
-          if (checkWordle.includes(guess.letter0) && checkWordle) {
+          if (checkWordle.includes(guess.letter0)) {
             guess.color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
           }

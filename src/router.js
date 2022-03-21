@@ -280,8 +280,8 @@ router.get('/candy-crush/yellow-candy.png', (req, res) => {
 })
 
 //FAVICON
-router.get('/favicon', (req, res) => {
-  res.sendFile(path.join(__dirname + '/favicon.svg'))
+router.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public' + '/favicon.svg'))
 })
 
 module.exports = router
