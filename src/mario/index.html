@@ -139,6 +139,54 @@
           margin-left: 80px;
         }
       }
+
+      .shootMobile {
+        display: none;
+      }
+
+      .playButtons {
+        display: none;
+      }
+
+      @media (max-height: 700px) {
+        #play .play {
+          margin: 0 0 10px 0 !important;
+        }
+
+        .shoot {
+          display: none;
+        }
+
+        .shootMobile {
+          display: block;
+          margin-left: 25px;
+          width: 100px;
+          text-align: center;
+        }
+
+        .playButtons {
+          display: flex;
+          position: absolute;
+          bottom: 15px;
+          justify-content: space-between;
+          width: 97%;
+          align-items: center;
+        }
+
+        .playButtons .moveGroup {
+          display: flex;
+        }
+
+        .playButtons .keyboard {
+          margin: 0 15px;
+          background-color: rgba(0, 0, 0, 0.5);
+          cursor: pointer;
+        }
+
+        .playButtons .shootMobile {
+          padding: 2px 2px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -147,6 +195,25 @@
     </div>
 
     <img class="home" src="./img/home.svg" />
+
+    <div class="playButtons">
+      <div class="moveGroup">
+        <div class="keyboard" id="mleft">
+          <img class="arrow" src="./img/arrowLeft.svg" />
+        </div>
+        <div class="keyboard" id="mright">
+          <img class="arrow" src="./img/arrowRight.svg" />
+        </div>
+      </div>
+      <div class="moveGroup">
+        <div class="keyboard" id="mjump">
+          <img class="arrow" src="./img/arrowTop.svg" />
+        </div>
+        <div class="keyboard shootMobile" id="mshoot">
+          <p>SHOOT</p>
+        </div>
+      </div>
+    </div>
 
     <div id="play">
       <p class="mission">MARIO</p>
@@ -176,6 +243,11 @@
 
         <div class="shoot">
           <div class="keyboard space">Space</div>
+          <p class="description">FIRE BALL</p>
+        </div>
+
+        <div class="shootMobile">
+          <div class="keyboard space">Shoot</div>
           <p class="description">FIRE BALL</p>
         </div>
       </div>
@@ -471,7 +543,11 @@
 
       class Platform {
         constructor({ x, y, image, block, text }) {
-          this.position = { x, y }
+          if (innerHeight < 700) {
+            this.position = { x, y: y + 25 }
+          } else {
+            this.position = { x, y }
+          }
           this.velocity = { x: 0 }
 
           this.image = image
@@ -493,7 +569,11 @@
 
       class GenericObject {
         constructor({ x, y, image }) {
-          this.position = { x, y: y + 300 }
+          if (innerHeight < 700) {
+            this.position = { x, y: y - 200 }
+          } else {
+            this.position = { x, y: y + 300 }
+          }
           this.velocity = { x: 0 }
 
           this.image = image
@@ -727,12 +807,27 @@
         xtPlatformImage = await createImageAsync(xtPlatform)
         flagPoleImage = await createImageAsync(flagPoleSprite)
 
-        flagPole = new GenericObject({
-          x: 6968 + 800,
-          y:
-            canvas.height - 300 - lgPlatformImage.height - flagPoleImage.height,
-          image: flagPoleImage
-        })
+        if (innerHeight < 700) {
+          flagPole = new GenericObject({
+            x: 6968 + 800,
+            y:
+              canvas.height +
+              225 -
+              lgPlatformImage.height -
+              flagPoleImage.height,
+            image: flagPoleImage
+          })
+        } else {
+          flagPole = new GenericObject({
+            x: 6968 + 800,
+            y:
+              canvas.height -
+              300 -
+              lgPlatformImage.height -
+              flagPoleImage.height,
+            image: flagPoleImage
+          })
+        }
 
         fireFlowers = [
           new FireFlower({
@@ -862,86 +957,150 @@
           })
         ]
         particles = []
-        platforms = [
-          new Platform({
-            x: 908 + 100,
-            y: 300 + 150,
-            image: blockTriImage,
-            block: true
-          }),
-          new Platform({
-            x: 700 + 100 + blockImage.width,
-            y: 100 + 570,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 1991 + lgPlatformImage.width - tPlatformImage.width,
-            y:
-              canvas.height -
-              lgPlatformImage.height -
-              tPlatformImage.height +
-              570,
-            image: tPlatformImage,
-            block: false
-          }),
-          new Platform({
-            x: 1991 + lgPlatformImage.width - tPlatformImage.width - 100,
-            y:
-              canvas.height +
-              570 -
-              lgPlatformImage.height -
-              tPlatformImage.height +
-              blockImage.height,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 5712 + xtPlatformImage.width + 175,
-            y: canvas.height - xtPlatformImage.height,
-            image: blockImage,
-            block: true,
-            text: 5712 + xtPlatformImage.width + 175
-          }),
-          new Platform({
-            x: 6116 + 175,
-            y: canvas.height - xtPlatformImage.height,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 6116 + 175 * 2,
-            y: canvas.height - xtPlatformImage.height,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 6116 + 175 * 3,
-            y: canvas.height - xtPlatformImage.height - 100,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 6116 + 175 * 4,
-            y: canvas.height - xtPlatformImage.height - 200,
-            image: blockTriImage,
-            block: true
-          }),
-          new Platform({
-            x: 6116 + 175 * 4 + blockTriImage.width,
-            y: canvas.height - xtPlatformImage.height - 200,
-            image: blockTriImage,
-            block: true,
-            text: 6116 + 175 * 4 + blockTriImage.width
-          }),
-          new Platform({
-            x: 6968 + 300,
-            y: canvas.height - lgPlatformImage.height,
-            image: lgPlatformImage,
-            block: true,
-            text: 6968 + 300
-          })
-        ]
+
+        if (innerHeight < 700) {
+          platforms = [
+            new Platform({
+              x: 908 + 100,
+              y: 150,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 1991 + lgPlatformImage.width - tPlatformImage.width,
+              y: canvas.height - lgPlatformImage.height - tPlatformImage.height,
+              image: tPlatformImage,
+              block: false
+            }),
+            new Platform({
+              x: 5712 + xtPlatformImage.width + 175,
+              y: canvas.height + 80 - xtPlatformImage.height,
+              image: blockImage,
+              block: true,
+              text: 5712 + xtPlatformImage.width + 175
+            }),
+            new Platform({
+              x: 6116 + 175,
+              y: canvas.height + 80 - xtPlatformImage.height,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 2,
+              y: canvas.height + 50 - xtPlatformImage.height,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 3,
+              y: canvas.height - xtPlatformImage.height + 50,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 4,
+              y: canvas.height - xtPlatformImage.height + 50,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 4 + blockTriImage.width,
+              y: canvas.height - xtPlatformImage.height + 50,
+              image: blockTriImage,
+              block: true,
+              text: 6116 + 175 * 4 + blockTriImage.width
+            }),
+            new Platform({
+              x: 6968 + 300,
+              y: canvas.height - lgPlatformImage.height,
+              image: lgPlatformImage,
+              block: true,
+              text: 6968 + 300
+            })
+          ]
+        } else {
+          platforms = [
+            new Platform({
+              x: 908 + 100,
+              y: 300 + 150,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 700 + 100 + blockImage.width,
+              y: 100 + 570,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1991 + lgPlatformImage.width - tPlatformImage.width,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                tPlatformImage.height +
+                570,
+              image: tPlatformImage,
+              block: false
+            }),
+            new Platform({
+              x: 1991 + lgPlatformImage.width - tPlatformImage.width - 100,
+              y:
+                canvas.height +
+                570 -
+                lgPlatformImage.height -
+                tPlatformImage.height +
+                blockImage.height,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 5712 + xtPlatformImage.width + 175,
+              y: canvas.height - xtPlatformImage.height,
+              image: blockImage,
+              block: true,
+              text: 5712 + xtPlatformImage.width + 175
+            }),
+            new Platform({
+              x: 6116 + 175,
+              y: canvas.height - xtPlatformImage.height,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 2,
+              y: canvas.height - xtPlatformImage.height,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 3,
+              y: canvas.height - xtPlatformImage.height - 100,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 4,
+              y: canvas.height - xtPlatformImage.height - 200,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 6116 + 175 * 4 + blockTriImage.width,
+              y: canvas.height - xtPlatformImage.height - 200,
+              image: blockTriImage,
+              block: true,
+              text: 6116 + 175 * 4 + blockTriImage.width
+            }),
+            new Platform({
+              x: 6968 + 300,
+              y: canvas.height - lgPlatformImage.height,
+              image: lgPlatformImage,
+              block: true,
+              text: 6968 + 300
+            })
+          ]
+        }
+
         genericObjects = [
           new GenericObject({
             x: -1,
@@ -1064,12 +1223,27 @@
           images.levels[2].mdPlatform
         )
 
-        flagPole = new GenericObject({
-          x: 8080,
-          y:
-            canvas.height - 300 - lgPlatformImage.height - flagPoleImage.height,
-          image: flagPoleImage
-        })
+        if (innerHeight < 700) {
+          flagPole = new GenericObject({
+            x: 8080,
+            y:
+              canvas.height +
+              225 -
+              lgPlatformImage.height -
+              flagPoleImage.height,
+            image: flagPoleImage
+          })
+        } else {
+          flagPole = new GenericObject({
+            x: 8080,
+            y:
+              canvas.height -
+              300 -
+              lgPlatformImage.height -
+              flagPoleImage.height,
+            image: flagPoleImage
+          })
+        }
 
         fireFlowers = [
           new FireFlower({
@@ -1155,100 +1329,200 @@
           })
         ]
         particles = []
-        platforms = [
-          new Platform({
-            x: 903 + mdPlatformImage.width + 115,
-            y: 300 + 400,
-            image: blockTriImage,
-            block: true
-          }),
-          new Platform({
-            x: 903 + mdPlatformImage.width + 115 + blockTriImage.width,
-            y: 300 + 400,
-            image: blockTriImage,
-            block: true
-          }),
-          new Platform({
-            x: 1878 + lgPlatformImage.width + 175,
-            y: 360 + 400,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 1878 + lgPlatformImage.width + 155 + 200,
-            y: 300 + 400,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 1878 + lgPlatformImage.width + 155 + 200 + 200,
-            y: 330 + 400,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 1878 + lgPlatformImage.width + 155 + 200 + 200 + 200,
-            y: 240 + 400,
-            image: blockImage,
-            block: true
-          }),
-          new Platform({
-            x: 4734 - mdPlatformImage.width / 2,
-            y: canvas.height - lgPlatformImage.height - mdPlatformImage.height,
-            image: mdPlatformImage
-          }),
-          new Platform({
-            x: 5987,
-            y: canvas.height - lgPlatformImage.height - mdPlatformImage.height,
-            image: mdPlatformImage
-          }),
-          new Platform({
-            x: 5987,
-            y:
-              canvas.height -
-              lgPlatformImage.height -
-              mdPlatformImage.height * 2,
-            image: mdPlatformImage
-          }),
-          new Platform({
-            x: 6787,
-            y: canvas.height - lgPlatformImage.height - mdPlatformImage.height,
-            image: mdPlatformImage
-          }),
-          new Platform({
-            x: 6787,
-            y:
-              canvas.height -
-              lgPlatformImage.height -
-              mdPlatformImage.height * 2,
-            image: mdPlatformImage
-          }),
-          new Platform({
-            x: 6787,
-            y:
-              canvas.height -
-              lgPlatformImage.height -
-              mdPlatformImage.height * 3,
-            image: mdPlatformImage
-          })
-        ]
-        genericObjects = [
-          new GenericObject({
-            x: -1,
-            y: 100,
-            image: createImage(images.levels[2].background)
-          }),
-          new GenericObject({
-            x: -1,
-            y: -350,
-            image: createImage(images.levels[2].background)
-          }),
-          new GenericObject({
-            x: -1,
-            y: canvas.height - mountains.height - 280,
-            image: mountains
-          })
-        ]
+
+        if (innerHeight < 700) {
+          platforms = [
+            new Platform({
+              x: 903 + mdPlatformImage.width + 115,
+              y: 300,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 903 + mdPlatformImage.width + 115 + blockTriImage.width,
+              y: 300,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 175,
+              y: 350,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200,
+              y: 330,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200 + 200,
+              y: 330,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200 + 200 + 200,
+              y: 240,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 4734 - mdPlatformImage.width / 2,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 5987,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 5987,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                mdPlatformImage.height * 2,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 6787,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 6787,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                mdPlatformImage.height * 2,
+              image: mdPlatformImage
+            })
+          ]
+        } else {
+          platforms = [
+            new Platform({
+              x: 903 + mdPlatformImage.width + 115,
+              y: 300 + 400,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 903 + mdPlatformImage.width + 115 + blockTriImage.width,
+              y: 300 + 400,
+              image: blockTriImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 175,
+              y: 360 + 400,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200,
+              y: 300 + 400,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200 + 200,
+              y: 330 + 400,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 1878 + lgPlatformImage.width + 155 + 200 + 200 + 200,
+              y: 240 + 400,
+              image: blockImage,
+              block: true
+            }),
+            new Platform({
+              x: 4734 - mdPlatformImage.width / 2,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 5987,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 5987,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                mdPlatformImage.height * 2,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 6787,
+              y:
+                canvas.height - lgPlatformImage.height - mdPlatformImage.height,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 6787,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                mdPlatformImage.height * 2,
+              image: mdPlatformImage
+            }),
+            new Platform({
+              x: 6787,
+              y:
+                canvas.height -
+                lgPlatformImage.height -
+                mdPlatformImage.height * 3,
+              image: mdPlatformImage
+            })
+          ]
+        }
+
+        if (innerHeight < 700) {
+          genericObjects = [
+            new GenericObject({
+              x: -1,
+              y: 100,
+              image: createImage(images.levels[2].background)
+            }),
+            new GenericObject({
+              x: -1,
+              y: -350,
+              image: createImage(images.levels[2].background)
+            }),
+            new GenericObject({
+              x: -1,
+              y: canvas.height - mountains.height + 220,
+              image: mountains
+            })
+          ]
+        } else {
+          genericObjects = [
+            new GenericObject({
+              x: -1,
+              y: 100,
+              image: createImage(images.levels[2].background)
+            }),
+            new GenericObject({
+              x: -1,
+              y: -350,
+              image: createImage(images.levels[2].background)
+            }),
+            new GenericObject({
+              x: -1,
+              y: canvas.height - mountains.height - 280,
+              image: mountains
+            })
+          ]
+        }
 
         scrollOffset = 0
 
@@ -1736,23 +2010,31 @@
 
       animate()
 
-      addEventListener('keydown', ({ keyCode }) => {
-        if (game.disableUserInput) return
+      if (innerHeight < 700) {
+        const mleft = document.querySelector('#mleft')
+        const mright = document.querySelector('#mright')
+        const mjump = document.querySelector('#mjump')
+        const mshoot = document.querySelector('#mshoot')
 
-        switch (keyCode) {
-          case 37:
+        if (!game.disableUserInput) {
+          mleft.addEventListener('mouseup', () => {
             keys.left.pressed = true
             lastKey = 'left'
+            setTimeout(() => {
+              keys.left.pressed = false
+            }, 300)
+          })
 
-            break
-
-          case 39:
+          mright.addEventListener('click', (code) => {
             keys.right.pressed = true
             lastKey = 'right'
 
-            break
+            setTimeout(() => {
+              keys.right.pressed = false
+            }, 300)
+          })
 
-          case 38:
+          mjump.addEventListener('mouseup', () => {
             if (player.velocity.y === 0) {
               player.velocity.y -= 25
 
@@ -1760,16 +2042,15 @@
                 player.currentSprite = player.sprites.jump.right
               else player.currentSprite = player.sprites.jump.left
 
-              if (!player.powerUp) break
-
-              if (lastKey === 'right')
-                player.currentSprite = player.sprites.jump.fireFlower.right
-              else player.currentSprite = player.sprites.jump.fireFlower.left
+              if (player.powerUp) {
+                if (lastKey === 'right')
+                  player.currentSprite = player.sprites.jump.fireFlower.right
+                else player.currentSprite = player.sprites.jump.fireFlower.left
+              }
             }
+          })
 
-            break
-
-          case 32:
+          mshoot.addEventListener('mouseup', () => {
             if (!player.shooting) {
               if (!player.powerUp) return
 
@@ -1798,24 +2079,90 @@
                 })
               )
             }
-
-            break
+          })
         }
-      })
+      } else {
+        addEventListener('keydown', ({ keyCode }) => {
+          if (game.disableUserInput) return
 
-      addEventListener('keyup', ({ keyCode }) => {
-        if (game.disableUserInput) return
+          switch (keyCode) {
+            case 37:
+              keys.left.pressed = true
+              lastKey = 'left'
 
-        switch (keyCode) {
-          case 37:
-            keys.left.pressed = false
-            break
+              break
 
-          case 39:
-            keys.right.pressed = false
-            break
-        }
-      })
+            case 39:
+              keys.right.pressed = true
+              lastKey = 'right'
+
+              break
+
+            case 38:
+              if (player.velocity.y === 0) {
+                player.velocity.y -= 25
+
+                if (lastKey === 'right')
+                  player.currentSprite = player.sprites.jump.right
+                else player.currentSprite = player.sprites.jump.left
+
+                if (!player.powerUp) break
+
+                if (lastKey === 'right')
+                  player.currentSprite = player.sprites.jump.fireFlower.right
+                else player.currentSprite = player.sprites.jump.fireFlower.left
+              }
+
+              break
+
+            case 32:
+              if (!player.shooting) {
+                if (!player.powerUp) return
+
+                player.shooting = true
+
+                setTimeout(() => {
+                  player.shooting = false
+                }, 300)
+
+                let velocity = 15
+                if (lastKey === 'left') velocity = -velocity
+
+                particles.push(
+                  new Particle({
+                    position: {
+                      x: player.position.x + player.width / 2,
+                      y: player.position.y + player.height / 2
+                    },
+                    velocity: {
+                      x: velocity,
+                      y: 0
+                    },
+                    radius: 5,
+                    color: 'red',
+                    fireball: true
+                  })
+                )
+              }
+
+              break
+          }
+        })
+
+        addEventListener('keyup', ({ keyCode }) => {
+          if (game.disableUserInput) return
+
+          switch (keyCode) {
+            case 37:
+              keys.left.pressed = false
+              break
+
+            case 39:
+              keys.right.pressed = false
+              break
+          }
+        })
+      }
     </script>
   </body>
 </html>
